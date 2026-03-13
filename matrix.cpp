@@ -1,4 +1,10 @@
-
+/************************************
+ * Student Name: Atiye Buker
+ * File Name: matrix.cpp
+ * Project 3
+ * 
+ * Purpose: read in the distances to a 20 by 20 adjacency matrix
+ * ************************************/
 #include<iostream>
 #include<string>
 #include<iomanip>
@@ -6,6 +12,10 @@
 #include<sstream>
 #include "distances.txt"
 using namespace std;
+
+double getDistance(double arr[20][20], int cityA, int cityB) {
+    return arr[cityA][cityB];
+}
 
 void createMatrix(double (&arr)[20][20]) {
     const int NUM_COLS = 20;
