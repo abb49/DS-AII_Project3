@@ -4,7 +4,7 @@
 #include <stdlib.h>  /*  for malloc */
 #include <unistd.h>  // for sleep()
 
-void demo()
+void time()
 {
   struct timeval * t;
   struct timezone * z;

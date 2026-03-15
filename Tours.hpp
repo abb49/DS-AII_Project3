@@ -9,7 +9,7 @@
 #ifndef TOUR_HPP
 #define TOUR_HPP
 #include<iostream>
-#include "matrix.cpp"
+#include "matrix.hpp"
 
 class Tour {
     private:
@@ -27,7 +27,9 @@ class Tour {
       double getFitness();
       static void makeMatrix(); //make the adjacency matrix for calcualting fitness
       void calculateFitness();
+      void mix();//to make a more diverse generation in genetic algorithm
       Tour(int cities);//constructor
+      Tour();
       ~Tour();
       Tour(const Tour& other);
       Tour& operator=(const Tour& other);

@@ -10,18 +10,23 @@
 #ifndef BRUTEFORCE_HPP
 #define BRUTEFORCE_HPP
 #include "Tours.hpp"
+#include <sys/time.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 class BruteForce {
     private:
       int numCities;
       double bestCost;
       Tour bestTour;
+      double timeElapsed;
       
     public:
       int getNumCities();
       double getBestCost();
-      unsigned long int factorial(int n); //for number of permutations to check in search
       BruteForce(int cities);
+      BruteForce();
+      double getTime();
 
       void search();
 };

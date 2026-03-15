@@ -8,6 +8,8 @@
 #include "Tours.hpp"
 
 
+double Tour::matrix[20][20];
+
 void Tour::swap(int a, int b) {
     int temp = tour[a];
     tour[a] = tour[b];
@@ -44,6 +46,15 @@ bool Tour::perm() {
      return true;
 } 
 
+void Tour::mix() {
+    for(int i = numCities - 1; i > 1; i--) {
+        int j = (rand() % i) + 1;
+        swap(i, j);
+    }
+
+    calculateFitness();
+}
+
 void Tour::mutate() {
     //pick two random indexes to swap
     int i = (rand() % (numCities - 1)) + 1;
@@ -54,6 +65,8 @@ void Tour::mutate() {
     }
 
     swap(i, j);
+
+    calculateFitness();
 }
 double Tour::getFitness() {
     return fitness;
@@ -94,6 +107,12 @@ Tour::Tour(int cities) {
     }
 
     calculateFitness();
+}
+
+Tour::Tour() {
+      numCities = 0;
+      tour = nullptr;
+      fitness = 0;
 }
 
 Tour::~Tour() {

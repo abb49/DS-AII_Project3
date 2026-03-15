@@ -10,7 +10,7 @@
 #include<iomanip>
 #include<fstream>
 #include<sstream>
-#include "distances.txt"
+#include "matrix.hpp"
 using namespace std;
 
 double getDistance(double arr[20][20], int cityA, int cityB) {
@@ -33,6 +33,9 @@ void createMatrix(double (&arr)[20][20]) {
     for(int i = 0; i < NUM_ROWS; i++) {
         for(int j = 0; j < NUM_COLS; j++) {
             getline(iss, currIn);
+            if(currIn.empty()) {
+                continue;
+            }
             if(i != j) {
                 arr[i][j] = stod(currIn);
             }

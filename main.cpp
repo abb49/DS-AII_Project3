@@ -3,9 +3,11 @@
  * File Name: main.cpp
  * Project 3
  * 
- * Purpose: 
+ * Purpose: run two seperate algorithms for the traveling salesman problem
  * ************************************/
-#include "matrix.cpp"
+#include "matrix.hpp"
+#include"BruteForce.hpp"
+#include"Genetic.hpp"
 #include<iostream>
 #include<string>
 #include<iomanip>
@@ -14,8 +16,9 @@
 using namespace std;
 
 int main() {
-    double matrix[20][20] = {0}; //initialize a 20 by 20 all vals 0
-    createMatrix(matrix);
+    srand(time(0)); //set seed since rand is used later
+
+    Tour::makeMatrix(); //make static member matrix to use in the algorithms
 
     int numCities;
     int numTours;
@@ -34,5 +37,15 @@ int main() {
     cout << "Please enter what percentage of each generation should be comprised of mutations: " << endl;
     cin >> percent;
 
-    
+    BruteForce brute(numCities);
+    Genetic gen(numGen, numTours, percent, numCities);
+
+    double perOpt = ((gen.getBestCost())/(brute.getBestCost())) * 100.0;
+
+    cout << "Number of Cities: " << numCities << endl;
+    cout << "Optimal Cost (From Brute Force Algorithm): " << brute.getBestCost() << endl;
+    cout << "Time for Brute Force Algorithm: " << brute.getTime() << endl;
+    cout << "Cost From Genetic Algorithm: " << gen.getBestCost() << endl;
+    cout << "Time for Genetic Algorithm: " << gen.getTime() << endl;
+    cout << "Percent of Optimal Produced by Genetic Algorithm: " << perOpt << endl;
 }

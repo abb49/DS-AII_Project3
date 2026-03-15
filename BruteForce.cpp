@@ -7,17 +7,20 @@
  * ************************************/
 
 #include "BruteForce.hpp"
-#include<cmath> //for factorial
 
-unsigned long int factorial(int n) {
-    if(n == 0 || n == 1) {
-        return 1;
-    }
-    return n * factorial(n-1);
-}
 
 double BruteForce::getBestCost() {
     return bestCost;
+}
+
+BruteForce::BruteForce() {
+      numCities = 0;
+      bestCost =0;
+      timeElapsed = 0; 
+}
+
+double BruteForce::getTime() {
+    return timeElapsed;
 }
 
 int BruteForce::getNumCities() {
@@ -30,8 +33,18 @@ BruteForce::BruteForce(int cities) : bestTour(cities) {
 }
 
 void BruteForce::search() {
-    //TODO start timer
     //makeMatrix called in main
+    struct timeval *start;
+    struct timeval *end;
+    struct timezone *z;
+
+    start = (struct timeval *) malloc(sizeof(struct timeval));
+    end = (struct timeval *) malloc (sizeof(struct timeval));
+
+    z = (struct timezone * ) malloc (sizeof(struct timezone));
+
+    gettimeofday(start, z); //start time before entering loop
+
     Tour currTour(numCities);
     bestCost = currTour.getFitness();
     bestTour = currTour;
@@ -46,4 +59,16 @@ void BruteForce::search() {
 
         permBool = currTour.perm();
     }
+
+    gettimeofday(end, z); //end time
+
+    long seconds = end->tv_sec - start-> tv_sec;
+    long microsecs = end->tv_usec - start->tv_usec;
+
+    timeElapsed = seconds + microsecs / 1000000.0; //final time in microsecs
+
+    //free pointers
+    free(start);
+    free(end);
+    free(z);
 }
