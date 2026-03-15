@@ -7,19 +7,24 @@
  * ************************************/
 #include "Tours.hpp"
 
+
 void Tour::swap(int a, int b) {
     int temp = tour[a];
     tour[a] = tour[b];
     tour [b] = temp;
 }
 
-void Tour::perm() {
+bool Tour::perm() {
     int m, k, p , q, i;
      m = numCities-2;
-     while(tour[m]>tour[m+1])
+     while(m>=1 && tour[m]>tour[m+1]) //to make sure first city stays the same
      {
         m = m - 1;
      }
+     if(m < 1){
+        return false;
+     }
+
      k = numCities-1;
      while(tour[m] > tour[k])
      {
@@ -34,9 +39,12 @@ void Tour::perm() {
        p++;
        q--;
      }
+
+     calculateFitness();
+     return true;
 } 
 
-void Tours::mutate() {
+void Tour::mutate() {
     //pick two random indexes to swap
     int i = (rand() % (numCities - 1)) + 1;
     int j = (rand() % (numCities - 1)) + 1;
@@ -51,16 +59,28 @@ double Tour::getFitness() {
     return fitness;
 }
 
-void Tour::calculateFitness(double arr[20][20]) {
+void Tour::makeMatrix() {
+    double arr[20][20];
+
+    createMatrix(arr);
+
+    for(int i = 0; i < 20; ++i) {
+        for(int j = 0; j < 20; ++j) {
+            matrix[i][j] = arr[i][j];
+        }
+    }
+}
+
+void Tour::calculateFitness() {
     double total = 0.0;
 
     for(int i = 0; i < numCities - 1; ++i) {
         int cityA = tour[i];
         int cityB = tour[i+1];
-        total += arr[cityA][cityB];
+        total += matrix[cityA][cityB];
     }
 
-    total += arr[tour[numCities - 1]][tour[0]];
+    total += matrix[tour[numCities - 1]][tour[0]];
 
     fitness = total;
 }
@@ -73,8 +93,7 @@ Tour::Tour(int cities) {
         tour[i] = i;
     }
 
-    perm();
-
+    calculateFitness();
 }
 
 Tour::~Tour() {
@@ -91,8 +110,8 @@ Tour::Tour(const  Tour& other) {
     }
 }
 
-Tour& Tours::operator=(const Tour& other) {
-    if(this != other) {
+Tour& Tour::operator=(const Tour& other) {
+    if(this != &other) {
         delete[] tour;
         numCities = other.numCities;
         fitness = other.fitness;

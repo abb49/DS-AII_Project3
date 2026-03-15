@@ -9,21 +9,24 @@
 #ifndef TOUR_HPP
 #define TOUR_HPP
 #include<iostream>
+#include "matrix.cpp"
 
 class Tour {
     private:
       int numCities;
       int* tour;
       double fitness;
+      static double matrix[20][20];
 
       void swap(int a , int b); //helper for perm
 
       
     public:
-      void perm();//create permutation
+      bool perm();//create permutation
       void mutate();
       double getFitness();
-      void calculateFitness(double arr[20][20]);
+      static void makeMatrix(); //make the adjacency matrix for calcualting fitness
+      void calculateFitness();
       Tour(int cities);//constructor
       ~Tour();
       Tour(const Tour& other);
